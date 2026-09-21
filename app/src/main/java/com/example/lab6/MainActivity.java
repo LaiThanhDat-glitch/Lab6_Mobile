@@ -1,50 +1,47 @@
 package com.example.lab6;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
-    Button btnLoad;
-    List countryList = new ArrayList();
+
+    private RecyclerView rcvArticles;
+    private ArticleAdapter adapter;
+    private List<Article> articleList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        rcvArticles = findViewById(R.id.rcv_articles);
+        initData();
+
+        adapter = new ArticleAdapter(articleList, (article, position) -> {
+            // 1. Tăng lượt xem lên 1
+            article.setViews(article.getViews() + 1);
+            adapter.notifyItemChanged(position);
+
+            // 2. Chuyển sang màn hình Detail bằng Intent
+            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+            intent.putExtra("EXTRA_ARTICLE", article);
+            startActivity(intent);
         });
 
-        countryList.add("Vietnam");
-        countryList.add("US");
-        countryList.add("China");
-        countryList.add("Japan");
-        countryList.add("Korea");
-        countryList.add("Thailand");
+        rcvArticles.setLayoutManager(new LinearLayoutManager(this));
+        rcvArticles.setAdapter(adapter);
+    }
 
-        recyclerView = findViewById(R.id.recyclerView);
-        btnLoad = findViewById(R.id.btnLoad);
-        btnLoad.setOnClickListener(v -> {
-            MyAdapter myAdapter = new MyAdapter(v.getContext(), countryList);
-            recyclerView.setLayoutManager(
-                    new LinearLayoutManager(this)
-            );
-            recyclerView.setAdapter(myAdapter);
-        });
+    private void initData() {
+        articleList = new ArrayList<>();
+        // Bạn thay R.drawable.ic_launcher_background bằng tên ảnh có sẵn trong thư mục res/drawable
+        articleList.add(new Article("Bài viết số 1", "Rau củ sạch Organic", R.drawable.mg_cover_1, 0));
+        articleList.add(new Article("Bài viết số 2", "Sách dạy viết code", R.drawable.mg_cover_2, 0));
+        articleList.add(new Article("Bài viết số 3", "Điện thoại Iphone 18 Pro Max", R.drawable.mg_cover_3, 0));
     }
 }
