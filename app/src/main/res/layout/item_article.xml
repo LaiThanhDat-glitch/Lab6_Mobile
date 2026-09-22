@@ -3,14 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_marginTop="20mm"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginBottom="8dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
     android:padding="12dp"
     android:background="@android:drawable/dialog_holo_light_frame">
 
-    <!-- Khối text bên trái: Title, Content, Views -->
+    <!-- Cột bên trái: Title, Content, Views -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -22,9 +20,10 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title"
+            android:text="Bài viết số 1"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="#222222" />
 
         <TextView
             android:id="@+id/tv_content"
@@ -33,7 +32,8 @@
             android:layout_marginTop="4dp"
             android:maxLines="2"
             android:ellipsize="end"
-            android:text="Content..." />
+            android:text="Rau củ sạch Organic"
+            android:textColor="#555555" />
 
         <TextView
             android:id="@+id/tv_views"
